@@ -2,9 +2,15 @@
   "name": "vovv-oceanicos",
   "private": true,
   "version": "0.1.0",
-  "workspaces": ["backend", "frontend"],
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
     "bootstrap": "npm install --workspaces",
     "start": "node backend/dist/index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.8.0"
   }
 }
