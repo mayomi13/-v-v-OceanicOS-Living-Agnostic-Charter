@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/vovv?schema=public"
+  frontend:
+    working_dir: /app
+    image: node:18
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/app
+    command: sh -c "cd frontend && npm install --silent && npm run dev -- --host 0.0.0.0"
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vovv
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
