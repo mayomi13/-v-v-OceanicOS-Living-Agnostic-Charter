@@ -1,0 +1,10 @@
+{
+  "name": "vovv-oceanicos",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["backend", "frontend"],
+  "scripts": {
+    "bootstrap": "npm install --workspaces",
+    "start": "node backend/dist/index.js"
+  }
+}
