@@ -8,7 +8,7 @@ services:
       NODE_ENV: development
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/vovv?schema=public"
   frontend:
-    working_dir: /app/frontend
+    working_dir: /app
     image: node:18
     ports:
       - "5173:5173"
