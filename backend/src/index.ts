@@ -1,6 +1,7 @@
 import Fastify from 'fastify';
 import fs from 'fs';
 import path from 'path';
+import { PrismaClient } from '@prisma/client';
 
 type Proposal = {
   id: string;
@@ -25,39 +26,21 @@ server.get('/charter', async (req, reply) => {
   }
 });
 
-const PROPOSALS_FILE = path.join(__dirname, '..', 'data', 'proposals.json');
-
-function readProposals(): Proposal[] {
-  try {
-    if (!fs.existsSync(PROPOSALS_FILE)) return [];
-    const raw = fs.readFileSync(PROPOSALS_FILE, 'utf8');
-    return JSON.parse(raw || '[]');
-  } catch (e) {
-    return [];
-  }
-}
-
-function writeProposals(proposals: Proposal[]) {
-  const dir = path.dirname(PROPOSALS_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(PROPOSALS_FILE, JSON.stringify(proposals, null, 2));
-}
+const prisma = new PrismaClient();
 
 server.get('/proposals', async () => {
-  return readProposals();
+  const items = await prisma.proposal.findMany({ orderBy: { createdAt: 'desc' } });
+  return items;
 });
 
 server.post('/proposals', async (req, reply) => {
   try {
     const body = req.body as any;
-    const proposals = readProposals();
-    const id = 'p_' + Date.now().toString(36);
-    const p: Proposal = { id, title: body.title || 'Untitled', body: body.body || '', status: 'open', createdAt: new Date().toISOString() };
-    proposals.unshift(p);
-    writeProposals(proposals);
+    const p = await prisma.proposal.create({ data: { title: body.title || 'Untitled', body: body.body || '', status: 'open' } });
     reply.code(201);
     return p;
   } catch (err) {
+    server.log.error(err);
     reply.code(500);
     return { error: 'unable to create proposal' };
   }
