@@ -16,7 +16,21 @@ docker-compose up --build
 
 3. The API will be available at `http://localhost:3000` and frontend at `http://localhost:5173`.
 
-Prisma setup (optional — to use Postgres instead of JSON fallback):
+## Testing
+
+Run backend database tests (requires running Postgres):
+
+```bash
+cd backend
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/vovv?schema=public" npm run test
+```
+
+This test suite validates:
+- Database connectivity
+- CRUD operations on proposals
+- Prisma client functionality
+
+## Prisma Setup (Optional — to use Postgres instead of JSON fallback)
 
 1. Install Prisma tools and client in the backend:
 
@@ -35,4 +49,18 @@ npx prisma migrate dev --name init --schema=prisma/schema.prisma
 Note: If `prisma generate` fails with a missing wasm file in `@prisma/client/generator-build`, try running `npm install` at the repository root to ensure `node_modules` are installed correctly, or run the generate command inside a container that matches your host architecture.
 
 Fallback: the backend currently uses a JSON file (`backend/data/proposals.json`) as a simple persistence layer if Prisma is not configured.
+
+## Docker Cleanup
+
+To stop and remove all containers:
+
+```bash
+docker-compose down
+```
+
+To remove database volume (resets data):
+
+```bash
+docker-compose down -v
+```
 
