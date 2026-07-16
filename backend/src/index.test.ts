@@ -1,9 +1,19 @@
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+// Use localhost for local testing, db service name for Docker
+const databaseUrl = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/vovv?schema=public'
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: databaseUrl
+    }
+  }
+})
 
 async function runTests() {
   console.log('🧪 Running backend tests...')
+  console.log(`📡 Using database URL: ${databaseUrl.replace(/:[^:]*@/, ':***@')}`)
   
   try {
     // Test 1: Database connection
