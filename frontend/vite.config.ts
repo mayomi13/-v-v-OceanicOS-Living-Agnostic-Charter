@@ -6,7 +6,8 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/charter': 'http://localhost:3000'
+      '/charter': 'http://backend:3000',
+      '/api': 'http://backend:3000'
     }
   }
 })
