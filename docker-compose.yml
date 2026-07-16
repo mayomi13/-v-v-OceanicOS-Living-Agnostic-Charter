@@ -4,8 +4,6 @@ services:
     build: ./backend
     ports:
       - "3000:3000"
-    volumes:
-      - ./backend:/app
     environment:
       NODE_ENV: development
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/vovv?schema=public"
