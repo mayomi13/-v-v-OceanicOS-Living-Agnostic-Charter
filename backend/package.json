@@ -10,7 +10,7 @@
     "test": "ts-node src/index.test.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.0",
+    "@prisma/client": "^7.9.0",
     "fastify": "^4.22.0"
   },
   "devDependencies": {
