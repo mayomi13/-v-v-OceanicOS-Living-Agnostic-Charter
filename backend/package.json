@@ -6,15 +6,16 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc -p .",
     "start": "node dist/index.js",
-    "test": "ts-node src/index.test.ts",
-    "test": "ts-node src/index.test.ts"
+    "test": "npm run test:core && npm run test:verification",
+    "test:core": "ts-node src/index.test.ts",
+    "test:verification": "ts-node src/verification/gateway.test.ts && ts-node src/verification/routes.test.ts && ts-node src/verification/active-ecosystem.test.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.0",
+    "@prisma/client": "^5.22.0",
     "fastify": "^4.22.0"
   },
   "devDependencies": {
-    "prisma": "^5.10.0",
+    "prisma": "5.22.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.0"
   }
