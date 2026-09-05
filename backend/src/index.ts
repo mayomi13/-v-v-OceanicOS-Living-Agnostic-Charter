@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import fs from 'fs';
 import path from 'path';
 import { PrismaClient } from '@prisma/client';
+import { registerVerificationRoutes } from './verification';
 
 type Proposal = {
   id: string;
@@ -14,6 +15,7 @@ type Proposal = {
 const server = Fastify({ logger: true });
 
 server.get('/health', async () => ({ status: 'ok' }));
+void registerVerificationRoutes(server);
 
 server.get('/charter', async (req, reply) => {
   try {
